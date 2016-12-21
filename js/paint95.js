@@ -61,28 +61,35 @@ function generateCanvas() {
         for (var j = 0; j < cols; j++) {
             var numCols = document.createElement('div');
             numCols.classList.add("cols");
-            numCols.addEventListener("mouseover", draw); //mouseover
+            numCols.addEventListener("mousedown", onClick);
+            numCols.addEventListener("mouseup", offClick);
+            numCols.addEventListener("mousemove", draw);//mouseover
+
+
             numRows.appendChild(numCols);
 
         }
     }
 }
-function onClick() {
-    mouse
+function onClick(e) {
+    mouseState = 1;
     
 }
-function ofCLick() {
+function offClick(e) {
+    mouseState = 0;
     
 }
 function draw(e) {
     if (selectedColor == "") {
         console.log("Please choose a color first!");
     }
-    if (selectedColor == "erase") {
-        e.target.style.backgroundColor = "white";
+    if(mouseState == 1) {
+        if (selectedColor == "erase") {
+            e.target.style.backgroundColor = "white";
 
+        }
+        e.target.style.backgroundColor = selectedColor;
     }
-    e.target.style.backgroundColor = selectedColor;
 }
 
 
