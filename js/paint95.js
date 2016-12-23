@@ -3,7 +3,7 @@
  */
 var colorArray = ["cyan", "lime", "red", "yellow", "deepPink", "black"];
 var selectedColor = "";
-var circleStamp = 0;
+var stamp = 0;
 var mouseState = 0;
 
 
@@ -11,7 +11,7 @@ function generateMenu() {
     toolBar();
     generateColors();
     generateEraser();
-    generateCircleStamp();
+    generateStamp();
 
 }
 
@@ -40,12 +40,16 @@ function generateEraser() {
     document.getElementById("toolbar").appendChild(eraser);
 
 }
-function generateCircleStamp() {
-    var createCircleStamp = document.createElement('img');
-    createCircleStamp.id = "circle";
-    createCircleStamp.addEventListener("click", selectStamp);
-    createCircleStamp.src = "./images/circle.png";
-    document.getElementById("toolbar").appendChild(createCircleStamp);
+function generateStamp() {
+    for (var i = 1; i < 4; i++) {
+        var createNewStamp = document.createElement('img');
+        createNewStamp.classList.add("myStamps");
+        createNewStamp.id = "s" + i;
+        createNewStamp.addEventListener("click", selectStamp);
+        createNewStamp.src = "./images/s" + i + ".png";
+        document.getElementById("toolbar").appendChild(createNewStamp);
+
+    }
 }
 function selectColor(e) {
     selectedColor = e.target.id;
@@ -53,8 +57,8 @@ function selectColor(e) {
 
 }
 function selectStamp(e) {
-    circleStamp = 1;
-    console.log(circleStamp);
+    stamp = 1;
+    console.log(stamp);
 }
 
 
@@ -93,7 +97,7 @@ function offClick(e) {
     
 }
 function draw(e) {
-    if (selectedColor == "" || circleStamp == 0) {
+    if (selectedColor == "" || stamp == 0) {
         console.log("Please choose a color first!");
     }
     if(mouseState == 1) {
@@ -102,7 +106,7 @@ function draw(e) {
             // circleStamp = 0;
             // console.log(circleStamp);
         }
-        if (circleStamp == 1) { //buggy. doesnt go on canvas AND once it is clicked it gets posted along with any color you pick
+        if (stamp == 1) { //buggy. doesnt go on canvas AND once it is clicked it gets posted along with any color you pick
             var stampOnCanvas = document.createElement('img');
             stampOnCanvas.src = "./images/circle.png";
             stampOnCanvas.id = "stampDimensions";
@@ -115,8 +119,8 @@ function draw(e) {
             stampOnCanvas.style.left = x +'px';
             stampOnCanvas.style.top = y +'px';
             if (selectedColor == "erase" || selectedColor != "") {
-                circleStamp = 0;
-                console.log(circleStamp);
+                stamp = 0;
+                console.log(stamp);//at i
             }
         }
 
