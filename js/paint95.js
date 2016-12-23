@@ -93,13 +93,14 @@ function offClick(e) {
     
 }
 function draw(e) {
-    if (selectedColor == "") {
+    if (selectedColor == "" || circleStamp == 0) {
         console.log("Please choose a color first!");
     }
     if(mouseState == 1) {
         if (selectedColor == "erase") {
             e.target.style.backgroundColor = "white";
-            console.log(mouseState);
+            // circleStamp = 0;
+            // console.log(circleStamp);
         }
         if (circleStamp == 1) { //buggy. doesnt go on canvas AND once it is clicked it gets posted along with any color you pick
             var stampOnCanvas = document.createElement('img');
@@ -109,11 +110,16 @@ function draw(e) {
             var x = e.pageX;
             var y = e.pageY;
             console.log(x, y);
-            x -= document.getElementById("canvas").offsetLeft - 20;
-            y -= document.getElementById("canvas").offsetTop - 10;
+            x -= document.getElementById("canvas").offsetLeft + 20;
+            y -= document.getElementById("canvas").offsetTop + 10;
             stampOnCanvas.style.left = x +'px';
             stampOnCanvas.style.top = y +'px';
+            if (selectedColor == "erase" || selectedColor != "") {
+                circleStamp = 0;
+                console.log(circleStamp);
+            }
         }
+
         e.target.style.backgroundColor = selectedColor;
     }
 }
@@ -122,6 +128,15 @@ function draw(e) {
 function init() {
     generateMenu();
     generateCanvas();
+
+
+
+
+
+
+
+
+
     draw();
 }
 
