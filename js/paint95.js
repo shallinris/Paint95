@@ -6,13 +6,11 @@ var selectedColor = "";
 var stamp = 0;
 var mouseState = 0;
 
-
 function generateMenu() {
     toolBar();
     generateColors();
     generateEraser();
     generateStamp();
-
 }
 
 function toolBar() {
@@ -32,35 +30,37 @@ function generateColors() {
         document.getElementById("toolbar").appendChild(colors);
     }
 }
+
 function generateEraser() {
     var eraser = document.createElement('img');
     eraser.id = "erase";
     eraser.addEventListener("click", selectColor);
     eraser.src = "./images/eraser.png";
     document.getElementById("toolbar").appendChild(eraser);
-
 }
+
 function generateStamp() {
     for (var i = 1; i < 4; i++) {
         var createNewStamp = document.createElement('img');
+        createNewStamp.src = "./images/s" + i + ".png";
         createNewStamp.classList.add("myStamps");
         createNewStamp.id = "s" + i;
         createNewStamp.addEventListener("click", selectStamp);
-        createNewStamp.src = "./images/s" + i + ".png";
         document.getElementById("toolbar").appendChild(createNewStamp);
-
     }
 }
+
 function selectColor(e) {
     selectedColor = e.target.id;
     console.log(selectedColor);
-
 }
+
 function selectStamp(e) {
-    stamp = 1;
+    var pressedId = e.target.id;
+    pressedId = pressedId.replace('s','');
+    stamp = pressedId; //i think i need to change this to id
     console.log(stamp);
 }
-
 
 function generateCanvas() {
     var canvas = document.createElement('div');
@@ -87,30 +87,34 @@ function generateCanvas() {
         }
     }
 }
+
 function onClick(e) {
     mouseState = 1;
-
-    
 }
+
 function offClick(e) {
     mouseState = 0;
-    
 }
+
 function draw(e) {
-    if (selectedColor == "" || stamp == 0) {
+    if (selectedColor == "" && stamp == 0) {
         console.log("Please choose a color first!");
     }
     if(mouseState == 1) {
         if (selectedColor == "erase") {
             e.target.style.backgroundColor = "white";
-            // circleStamp = 0;
-            // console.log(circleStamp);
+
         }
-        if (stamp == 1) { //buggy. doesnt go on canvas AND once it is clicked it gets posted along with any color you pick
+        if (stamp != 0) {
+
+            var i = stamp;
             var stampOnCanvas = document.createElement('img');
-            stampOnCanvas.src = "./images/circle.png";
-            stampOnCanvas.id = "stampDimensions";
-            document.getElementById("canvas").appendChild(stampOnCanvas);
+                stampOnCanvas.src = "./images/s" + i + ".png";
+                stampOnCanvas.id = "s" + i;
+                stampOnCanvas.id = "stampDimensions";
+                document.getElementById("canvas").appendChild(stampOnCanvas);
+
+
             var x = e.pageX;
             var y = e.pageY;
             console.log(x, y);
@@ -118,29 +122,18 @@ function draw(e) {
             y -= document.getElementById("canvas").offsetTop + 10;
             stampOnCanvas.style.left = x +'px';
             stampOnCanvas.style.top = y +'px';
-            if (selectedColor == "erase" || selectedColor != "") {
-                stamp = 0;
-                console.log(stamp);//at i
-            }
+            e.target.style.backgroundColor = "white"; //why doesnt this work
         }
 
         e.target.style.backgroundColor = selectedColor;
+        stamp = 0;
+        console.log(stamp);
     }
 }
-
 
 function init() {
     generateMenu();
     generateCanvas();
-
-
-
-
-
-
-
-
-
     draw();
 }
 
