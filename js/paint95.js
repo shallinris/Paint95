@@ -99,6 +99,7 @@ function offClick(e) {
 function draw(e) {
     if (selectedColor == "" && stamp == 0) {
         console.log("Please choose a color first!");
+        return;
     }
     if(mouseState == 1) {
         if (selectedColor == "erase") {
@@ -106,7 +107,7 @@ function draw(e) {
 
         }
         if (stamp != 0) {
-
+            selectedColor = "";
             var i = stamp;
             var stampOnCanvas = document.createElement('img');
                 stampOnCanvas.src = "./images/s" + i + ".png";
@@ -122,7 +123,6 @@ function draw(e) {
             y -= document.getElementById("canvas").offsetTop + 10;
             stampOnCanvas.style.left = x +'px';
             stampOnCanvas.style.top = y +'px';
-            e.target.style.backgroundColor = "white"; //why doesnt this work
         }
 
         e.target.style.backgroundColor = selectedColor;
